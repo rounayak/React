@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Folding Select Box - Material Design - React</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style for select box.css">
+
+  
+</head>
+
+<body>
+
+  <div id="content"></div>
+
+<script type="text/jsx">
+   /** @jsx React.DOM */
+  
+  function link(){
+  
+  var data = {};
+  
+  return new (function(){
+  
+  this.data = data;
+  this.prop = (function(key){
+  
+  return data[key];
+  });
+  this.match = (function(key, val, convertValue){
+  return this.stream(key, val[key], convertValue);
+  })
+  this.stream = (function(key, val, convertValue){
+  
+  if(val != null && val !== "")
+  data[key] = convertValue === undefined? val : convertValue(val);
+  else if(data[key] !== undefined) delete data[key];
+  });
+  
+  return this;
+  })();
+  }
+  
+  
+  var arialDropDown = React.createClass({
+  
+   getInitialState: function () {
+        return {hover: false};
+    },
+
+  index: 0,
+  selectIndex: (function(i, callback){
+
+  return (function(){
+  var res = false;
+  if(callback instanceof Function){
+  res = callback(this.index, i);
+  }
+  if(res !== false){
+  if(res === undefined || res === true)
+  this.index = i;
+  else this.index = res;
+  this.mouseOut();
+  }
+  
+  }).bind(this);
+  }),
+    mouseOver: function () {
+        this.setState({hover: true});
+    },
+
+    mouseOut: function () {
+        this.setState({hover: false});
+    },
+  render: (function(){
+  var container = this;
+  var properties = link();
+  var events = link();
+  this.selectIndex = this.selectIndex.bind(this);
+  properties.match("data", this.props);
+  events.stream("indexChange", this.props.indexChange instanceof Function? this.props.indexChange.bind(properties.prop("data")) : null);
+  
+
+  return (
+  <div className={"arial" + (this.state.hover? " selected" : "")} >
+    <div onMouseDown={this.state.hover === false? this.mouseOver : this.mouseOut} className="container">
+  <div className="header">
+    <span className="innerHeader">{properties.prop("data")[this.index]}</span>
+    
+    </div>
+    </div>
+    <div className="contentHolder">
+      <div className="content">
+        {
+          properties.prop('data').map(
+            function(item, i) {
+        if(i !== container.index)
+        return (<div className="list"  onMouseDown={container.selectIndex(i, events.prop("indexChange"))}>{item}</div>);})
+        }
+      </div>
+    </div>
+  </div>
+  );
+  })
+  })
+  this.name = "PQR";
+  var test = (function(current, end){
+  document.getElementById("index").innerText = "\"" + this[end] + "\"";
+  console.log(this[end])
+  url='http://127.0.0.1:5000/source/'
+  val=this[end]
+  res=url.concat(val)
+  var request = new Request(res, {
+          method: 'GET',
+          mode: 'cors',
+          redirect: 'follow',
+          headers: new Headers({
+              'Content-Type': 'text/plain'
+          })
+  });
+  fetch(request).then(function(response) {
+          return response.json();
+  }).then(function(csv) {
+          console.log(csv);
+          console.log(res)
+
+
+
+  });
+
+
+
+
+
+  });
+  
+  React.renderComponent(<div><h3>Data Source Filter: <span style={{color: "#333"}} id="index">"{this.name}"</span> </h3><arialDropDown indexChange={test} data={['PQR', 'Warranty']}/></div>, document.getElementById("content"));
+</script>
+  <script src='https://fb.me/react-0.10.0.js'></script>
+<script src='https://fb.me/JSXTransformer-0.10.0.js'></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3-collection.v1.min.js"></script>
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+<script src="https://d3js.org/d3-request.v1.min.js"></script>
+
+
+</body>
+
+</html>
